@@ -1,8 +1,20 @@
-[package]
-name = "in_nee"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = [
+  "backend/api/lambda/*",
+  "backend/api/common_api",
+  "xtask",
+  # "backend/feature/common/*",
+  # "backend/use_case/*",
+]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+[workspace.dependencies]
+clap = { version = "4.0" }
+lambda_http = { version = "0.7", default-features = false }
+serde = { version = "1.0" }
+toml = { version = "0.5" }
+tokio = { version = "1.22" }
+tower-http = { version = "0.3" }
+tracing = { version = "0.1" }
+tracing-subscriber = { version = "0.3" }
+walkdir = { version = "2.3" }
+zip = { version = "0.6" }
