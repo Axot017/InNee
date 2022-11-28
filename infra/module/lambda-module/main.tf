@@ -41,6 +41,7 @@ resource "aws_lambda_function" "lambda" {
   memory_size      = var.memory_size
   role             = aws_iam_role.lambda_exec.arn
   architectures    = [var.arch]
+  publish          = true
 
   dynamic "environment" {
     for_each = local.env_variables
