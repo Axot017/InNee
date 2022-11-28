@@ -3,14 +3,17 @@ members = [
   "backend/api/lambda/*",
   "backend/api/common_api",
   "xtask",
-  # "backend/feature/common/*",
+  "backend/feature/common/*",
   # "backend/use_case/*",
 ]
 
 [workspace.dependencies]
 clap = { version = "4.0" }
+http = { version = "0.2" }
 lambda_http = { version = "0.7", default-features = false }
+mime = { version = "0.3" }
 serde = { version = "1.0" }
+serde_json = { version = "1.0" }
 toml = { version = "0.5" }
 tokio = { version = "1.22" }
 tower-http = { version = "0.3" }

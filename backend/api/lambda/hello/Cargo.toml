@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+common_api = { path = "../../common_api" }
+common_domain = { path = "../../../feature/common/common_domain" }
 lambda_http = { workspace = true, features = ["apigw_rest", "apigw_http"] }
 tokio = { workspace = true }
 tower-http = { workspace = true, features = ["trace"] }

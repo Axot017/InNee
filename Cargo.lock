@@ -214,6 +214,21 @@ dependencies = [
 [[package]]
 name = "common_api"
 version = "0.1.0"
+dependencies = [
+ "common_domain",
+ "http",
+ "lambda_http",
+ "mime",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "common_domain"
+version = "0.1.0"
+dependencies = [
+ "log",
+]
 
 [[package]]
 name = "constant_time_eq"
@@ -412,6 +427,8 @@ checksum = "2540771e65fc8cb83cd6e8a237f70c319bd5c29f78ed1084ba5d50eeac86f7f9"
 name = "hello"
 version = "0.1.0"
 dependencies = [
+ "common_api",
+ "common_domain",
  "lambda_http",
  "tokio",
  "tower-http",

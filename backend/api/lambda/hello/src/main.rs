@@ -1,14 +1,23 @@
+use common_domain::error::ErrorOutput;
 use lambda_http::{run, tower::ServiceBuilder, Body, Error, Request, Response};
 use tower_http::trace::{DefaultOnRequest, DefaultOnResponse, TraceLayer};
 use tracing::Level;
 
 async fn function_handler(_event: Request) -> Result<Response<Body>, Error> {
-    let resp = Response::builder()
-        .status(200)
-        .header("content-type", "text/html")
-        .body("Hello World".into())
-        .map_err(Box::new)?;
-    Ok(resp)
+    common_api::error_dto::ErrorDto::from(
+        common_domain::error::Error::builder()
+            .set_debug_message("test".to_owned())
+            .set_error_type(common_domain::error::ErrorType::InvalidInput)
+            .set_output(
+                ErrorOutput::builder()
+                    .set_code("test".to_owned())
+                    .set_message("Test message".to_owned())
+                    .add_arg("Test arg".to_owned(), "Test value".to_owned())
+                    .build(),
+            )
+            .build(),
+    )
+    .try_into()
 }
 
 #[tokio::main]
