@@ -35,4 +35,3 @@ variable "arch" {
 variable "policies" {
   type = list(string)
 }
-
