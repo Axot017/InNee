@@ -21,6 +21,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "apartment_domain"
+version = "0.1.0"
+
+[[package]]
+name = "apartment_infra"
+version = "0.1.0"
+
+[[package]]
 name = "async-stream"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
