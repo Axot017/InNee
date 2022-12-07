@@ -40,3 +40,51 @@ module "gateway" {
     }
   ]
 }
+
+resource "aws_dynamodb_table" "basic-dynamodb-table" {
+  name           = "in-nee-${var.env}"
+  billing_mode   = var.dynamodb_billing_mode
+  read_capacity  = var.dynamodb_read_capacity
+  write_capacity = var.dynamodb_write_capacity
+  hash_key       = "HK"
+  range_key      = "RK"
+
+  attribute {
+    name = "HK"
+    type = "S"
+  }
+
+  attribute {
+    name = "RK"
+    type = "S"
+  }
+
+  attribute {
+    name = "GSI_HK"
+    type = "S"
+  }
+
+  attribute {
+    name = "GSI_RK"
+    type = "S"
+  }
+
+  ttl {
+    attribute_name = "TTL"
+    enabled        = true
+  }
+
+  global_secondary_index {
+    name            = "GSI"
+    hash_key        = "GSI_HK"
+    range_key       = "GSI_RK"
+    projection_type = "ALL"
+    read_capacity   = var.dynamodb_gsk_read_capacity
+    write_capacity  = var.dynamodb_gsk_write_capacity
+  }
+
+  tags = {
+    Service     = "in-nee"
+    Environment = var.env
+  }
+}
