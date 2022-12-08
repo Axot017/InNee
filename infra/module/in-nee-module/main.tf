@@ -26,6 +26,21 @@ module "hello_lambda" {
   ]
 }
 
+module "create_apartment_v1_lambda" {
+  source = "../lambda-module"
+
+
+  region                = var.region
+  env                   = var.env
+  name                  = "create-apartment-v1"
+  memory_size           = 128
+  zip_path              = "${path.module}/../../../target/lambdas/create_apartment_v1.zip"
+  gateway_execution_arn = module.gateway.execution_arn
+  policies = [
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  ]
+}
+
 module "gateway" {
   source = "../gateway-module"
 
@@ -37,6 +52,11 @@ module "gateway" {
       lambda_invoke_arn = module.hello_lambda.invoke_arn
       route             = "/hello"
       method            = "GET"
+    },
+    {
+      lambda_invoke_arn = module.create_apartment_v1_lambda.invoke_arn
+      route             = "/v1/apartment"
+      method            = "POST"
     }
   ]
 }
