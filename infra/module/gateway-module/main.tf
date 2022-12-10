@@ -21,19 +21,6 @@ resource "aws_apigatewayv2_api" "default" {
   }
 }
 
-# resource "aws_apigatewayv2_deployment" "default" {
-#   api_id = aws_apigatewayv2_api.default.id
-#
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-#
-#   depends_on = [
-#     aws_apigatewayv2_integration.lambdas,
-#     aws_apigatewayv2_route.lambdas,
-#   ]
-# }
-
 resource "aws_apigatewayv2_stage" "default" {
   # deployment_id = aws_apigatewayv2_deployment.default.id
   api_id      = aws_apigatewayv2_api.default.id
