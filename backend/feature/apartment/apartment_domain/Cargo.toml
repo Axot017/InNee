@@ -3,6 +3,9 @@ name = "apartment_domain"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+common_domain = { path = "../../common/common_domain" }
+lazy_static = { workspace = true }
+mockall = { workspace = true }
+paste = { workspace = true }
+tokio = { workspace = true }
