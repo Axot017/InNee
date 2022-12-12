@@ -8,7 +8,7 @@ pub fn are_files_the_same(first: &Path, second: &Path) -> bool {
     }
 
     let first_hash = hash_file(first);
-    let second_hash = hash_file(first);
+    let second_hash = hash_file(second);
 
     first_hash == second_hash
 }

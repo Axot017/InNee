@@ -1,6 +1,6 @@
 #[derive(PartialEq, Debug)]
 pub struct ApartmentCreation {
-    name: String,
-    description: Option<String>,
-    price: f32,
+    pub name: String,
+    pub description: Option<String>,
+    pub price: f32,
 }
