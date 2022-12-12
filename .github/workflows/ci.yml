@@ -36,10 +36,11 @@ jobs:
         with:
             toolchain: stable
             override: true
-            components: clippy
+            components: clippy, rustfmt
 
-      - name: Install cross
-        run: cargo install cross
+      - name: Check format
+        run: |
+          cargo fmt --check
 
       - name: Run clippy
         run: |
@@ -48,8 +49,3 @@ jobs:
       - name: Run tests
         run: |
           cargo test -- --nocapture --test-threads 1
-
-      - name: Run build xtask
-        run: |
-          cargo xtask build-lambda --use-cross --target aarch64-unknown-linux-gnu
-
