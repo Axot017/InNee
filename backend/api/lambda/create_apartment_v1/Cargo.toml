@@ -10,12 +10,8 @@ common_api = { path = "../../common_api", features = ["lambda"] }
 common_domain = { path = "../../../feature/common/common_domain" }
 futures = { workspace = true }
 lambda_http = { workspace = true, features = ["apigw_rest", "apigw_http"] }
-log = { workspace = true, features = [
-  "max_level_debug",
-  "release_max_level_warn",
-] }
-use_case = { path = "../../../use_case", features = ["create_apartment"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 tokio = { workspace = true }
+use_case = { path = "../../../use_case", features = ["create_apartment"] }
 validator = { workspace = true, features = ["derive"] }

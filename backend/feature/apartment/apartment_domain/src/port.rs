@@ -1,5 +1,5 @@
-use crate::model::apartment_creation::ApartmentCreation;
+use crate::model::CreateApartmentParams;
 use common_domain::define_port;
 use common_domain::error::Result;
 
-define_port!(SaveApartment = FnOnce<'a>(apartment_creation: &'a ApartmentCreation) -> Result<()>);
+define_port!(SaveApartment = FnOnce(create_apartment_params: CreateApartmentParams) -> Result<()>);

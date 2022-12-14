@@ -1,41 +1,27 @@
-use std::future;
-
-use apartment_domain::model::apartment_creation::ApartmentCreation;
-use common_api::{error_dto::ErrorDto, from_request::FromRequest, validate_dto::ValidateDto};
+use apartment_domain::model::CreateApartmentParams;
+use common_api::{
+    from_request::FromRequest, into_response::IntoResponse, validate_dto::ValidateDto,
+};
+use common_domain::into_future::IntoFuture;
 use futures::TryFutureExt;
-use lambda_http::{Body, Error, Request, Response};
+use lambda_http::{http::StatusCode, Body, Error, Request, Response};
 use use_case::create_apartment::{create_apartment, CreateApartmentRepository};
 
-use crate::dto::ApartmentCreationDto;
+use crate::dto::CreateApartmentDto;
 
 pub async fn handle_request(event: Request) -> Result<Response<Body>, Error> {
-    let result = future::ready(
-        ApartmentCreationDto::from_request(event)
-            .and_then(|dto| dto.validate_dto().map(|_| dto))
-            .map(ApartmentCreation::from),
-    )
-    .and_then(|apartment_creation| {
-        create_apartment(
-            apartment_creation,
-            CreateApartmentRepository {
-                save: apartment_infra::save_apartment::save_apartment,
-            },
-        )
-    })
-    .await;
-
-    match result {
-        Ok(result) => result,
-        Err(error) => {
-            return ErrorDto::from(error).try_into();
-        }
-    };
-
-    let resp = Response::builder()
-        .status(200)
-        .header("content-type", "text/html")
-        .body("hello".into())
-        .map_err(Box::new)?;
-
-    Ok(resp)
+    CreateApartmentDto::from_request(event)
+        .and_then(|dto| dto.validate_dto().map(|_| dto))
+        .map(CreateApartmentParams::from)
+        .into_future()
+        .and_then(|create_apartment_params| {
+            create_apartment(
+                create_apartment_params,
+                CreateApartmentRepository {
+                    save: apartment_infra::repository::save_apartment,
+                },
+            )
+        })
+        .await
+        .into_empty_response(StatusCode::CREATED)
 }
