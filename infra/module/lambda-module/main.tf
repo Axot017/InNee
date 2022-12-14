@@ -53,7 +53,7 @@ resource "aws_lambda_function" "lambda" {
 
   tags = {
     Environment = var.env
-    Name        = var.name
+    Name        = var.app_name
   }
 }
 

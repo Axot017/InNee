@@ -1,9 +1,9 @@
-use apartment_domain::model::apartment_creation::ApartmentCreation;
+use apartment_domain::model::CreateApartmentParams;
 use serde::Deserialize;
 use validator::Validate;
 
 #[derive(Deserialize, Validate, PartialEq, Debug)]
-pub struct ApartmentCreationDto {
+pub struct CreateApartmentDto {
     #[validate(length(min = 3, max = 255))]
     pub name: String,
     #[validate(length(max = 2048))]
@@ -12,8 +12,8 @@ pub struct ApartmentCreationDto {
     pub price: f32,
 }
 
-impl From<ApartmentCreationDto> for ApartmentCreation {
-    fn from(dto: ApartmentCreationDto) -> Self {
+impl From<CreateApartmentDto> for CreateApartmentParams {
+    fn from(dto: CreateApartmentDto) -> Self {
         Self {
             name: dto.name,
             description: dto.description,
@@ -21,19 +21,20 @@ impl From<ApartmentCreationDto> for ApartmentCreation {
         }
     }
 }
+
 #[cfg(test)]
 mod test {
     use super::*;
 
     #[test]
     fn map_dto_to_model() {
-        let dto = ApartmentCreationDto {
+        let dto = CreateApartmentDto {
             name: "name".to_owned(),
             description: Some("description".to_owned()),
             price: 1.0,
         };
 
-        let model = ApartmentCreation::from(dto);
+        let model = CreateApartmentParams::from(dto);
 
         assert_eq!(model.name, "name");
         assert_eq!(model.description, Some("description".to_owned()));

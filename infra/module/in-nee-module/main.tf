@@ -18,11 +18,13 @@ module "create_apartment_v1_lambda" {
   region                = var.region
   env                   = var.env
   name                  = "create-apartment-v1"
+  aapp_name             = "in-nee"
   memory_size           = 128
   zip_path              = "${path.module}/../../../target/lambdas/create_apartment_v1.zip"
   gateway_execution_arn = module.gateway.execution_arn
   policies = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
   ]
 }
 
@@ -46,26 +48,26 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
   billing_mode   = var.dynamodb_billing_mode
   read_capacity  = var.dynamodb_read_capacity
   write_capacity = var.dynamodb_write_capacity
-  hash_key       = "HK"
-  range_key      = "RK"
+  hash_key       = "PK"
+  range_key      = "SK"
 
   attribute {
-    name = "HK"
+    name = "PK"
     type = "S"
   }
 
   attribute {
-    name = "RK"
+    name = "SK"
     type = "S"
   }
 
   attribute {
-    name = "GSI_HK"
+    name = "GSI_PK"
     type = "S"
   }
 
   attribute {
-    name = "GSI_RK"
+    name = "GSI_SK"
     type = "S"
   }
 
@@ -76,8 +78,8 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
 
   global_secondary_index {
     name            = "GSI"
-    hash_key        = "GSI_HK"
-    range_key       = "GSI_RK"
+    hash_key        = "GSI_PK"
+    range_key       = "GSI_SK"
     projection_type = "ALL"
     read_capacity   = var.dynamodb_gsk_read_capacity
     write_capacity  = var.dynamodb_gsk_write_capacity

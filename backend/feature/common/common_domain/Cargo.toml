@@ -4,4 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-log = "0.4"
+lazy_static = { workspace = true }
+log = { workspace = true }
+mockall = { workspace = true }
+paste = { workspace = true }
+tokio = { workspace = true }

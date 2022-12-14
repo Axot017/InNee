@@ -1,4 +1,4 @@
-use apartment_domain::{model::apartment_creation::ApartmentCreation, port::SaveApartment};
+use apartment_domain::{model::CreateApartmentParams, port::SaveApartment};
 use common_domain::error::Result;
 
 pub struct CreateApartmentRepository<T> {
@@ -6,11 +6,11 @@ pub struct CreateApartmentRepository<T> {
 }
 
 pub async fn create_apartment<T>(
-    _apartment_creation: ApartmentCreation,
-    _repository: CreateApartmentRepository<T>,
+    create_apartment_params: CreateApartmentParams,
+    repository: CreateApartmentRepository<T>,
 ) -> Result<()>
 where
-    for<'a> T: SaveApartment<'a>,
+    T: SaveApartment,
 {
-    Ok(())
+    (repository.save)(create_apartment_params).await
 }

@@ -5,4 +5,12 @@ edition = "2021"
 
 [dependencies]
 apartment_domain = { path = "../apartment_domain" }
+aws-config = { workspace = true }
+aws-sdk-dynamodb = { workspace = true }
 common_domain = { path = "../../common/common_domain" }
+common_infra = { path = "../../common/common_infra", features = ["dynamodb"] }
+serde = { workspace = true }
+serde_dynamo = { workspace = true, features = ["aws-sdk-dynamodb+0_21"] }
+uuid = { workspace = true, features = ["v4", "fast-rng"] }
+
+log = { workspace = true }

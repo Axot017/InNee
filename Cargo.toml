@@ -1,14 +1,16 @@
 [workspace]
 members = [
-  "backend/api/lambda/*",
   "backend/api/common_api",
-  "xtask",
-  "backend/feature/common/*",
+  "backend/api/lambda/*",
   "backend/feature/apartment/*",
+  "backend/feature/common/*",
   "backend/use_case",
+  "xtask",
 ]
 
 [workspace.dependencies]
+aws-config = { version = "0.51" }
+aws-sdk-dynamodb = { version = "0.21" }
 clap = { version = "4.0" }
 futures = { version = "0.3" }
 http = { version = "0.2" }
@@ -19,6 +21,7 @@ mime = { version = "0.3" }
 mockall = { version = "0.11.3" }
 paste = { version = "1.0" }
 serde = { version = "1.0" }
+serde_dynamo = { version = "4.0" }
 serde_json = { version = "1.0" }
 sha3 = { version = "0.10.6" }
 toml = { version = "0.5" }
@@ -26,6 +29,7 @@ tokio = { version = "1.22" }
 tower-http = { version = "0.3" }
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3" }
+uuid = { version = "1.2" }
 walkdir = { version = "2.3" }
 validator = { version = "0.16" }
 zip = { version = "0.6" }
