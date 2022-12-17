@@ -6,10 +6,9 @@ edition = "2021"
 [dependencies]
 aws-config = { workspace = true, optional = true }
 aws-sdk-dynamodb = { workspace = true, optional = true }
-common_domain = { path = "../common_domain" }
 lazy_static = { workspace = true }
-tokio = { workspace = true, features = ["parking_lot"] }
 log = { workspace = true }
+tokio = { workspace = true, features = ["parking_lot"] }
 
 [features]
 dynamodb = ["aws-sdk-dynamodb", "aws-config"]

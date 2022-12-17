@@ -29,6 +29,9 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
+            ~/.rustup/toolchains
+            ~/.rustup/update-hashes
+            ~/.rustup/settings.toml
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install latest rust
@@ -37,6 +40,22 @@ jobs:
             toolchain: stable
             override: true
             components: clippy, rustfmt
+
+      - name: Install cargo-sort
+        run: |
+          cargo install cargo-sort
+
+      - name: Install cargo-machete 
+        run: |
+          cargo install cargo-machete 
+
+      - name: Check cargo dependencies order
+        run: |
+          cargo sort -w -c
+
+      - name: Detect unused dependencies
+        run: |
+          cargo machete
 
       - name: Check format
         run: |
