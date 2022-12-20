@@ -42,6 +42,7 @@ name = "apartment_infra"
 version = "0.1.0"
 dependencies = [
  "apartment_domain",
+ "aws-sdk-dynamodb",
  "common_domain",
  "common_infra",
  "serde",
@@ -538,6 +539,7 @@ dependencies = [
  "common_domain",
  "http",
  "lambda_http",
+ "log",
  "mime",
  "serde",
  "serde_json",

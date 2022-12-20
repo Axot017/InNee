@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 common_domain = { path = "../../feature/common/common_domain" }
 http = { workspace = true }
+log = { workspace = true }
 lambda_http = { workspace = true, features = [
   "apigw_rest",
   "apigw_http",

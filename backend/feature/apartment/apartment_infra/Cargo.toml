@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 apartment_domain = { path = "../apartment_domain" }
+aws-sdk-dynamodb = { workspace = true }
 common_domain = { path = "../../common/common_domain" }
 common_infra = { path = "../../common/common_infra", features = ["dynamodb"] }
 serde = { workspace = true }

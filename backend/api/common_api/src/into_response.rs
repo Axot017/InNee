@@ -27,7 +27,11 @@ impl<T> IntoResponse<T> for Result<T, common_domain::error::Error> {
                         .into(),
                 )
                 .map_err(Box::new)?),
-            Err(err) => ErrorDto::from(err).try_into(),
+            Err(err) => {
+                log::log!(err.error_type.into(), "{err:?}");
+
+                ErrorDto::from(err).try_into()
+            }
         }
     }
 
@@ -37,7 +41,11 @@ impl<T> IntoResponse<T> for Result<T, common_domain::error::Error> {
                 .status(status_code)
                 .body(Body::Empty)
                 .map_err(Box::new)?),
-            Err(err) => ErrorDto::from(err).try_into(),
+            Err(err) => {
+                log::log!(err.error_type.into(), "{err:?}");
+
+                ErrorDto::from(err).try_into()
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ pub struct ApartmentDto {
     #[serde(rename = "PK")]
     pub user_id: String,
     pub name: String,
-    pub parice: f32,
+    pub price: f32,
     pub description: Option<String>,
 }
 
@@ -18,7 +18,7 @@ impl From<ApartmentDto> for Apartment {
             id: dto.id,
             user_id: dto.user_id,
             name: dto.name,
-            price: dto.parice,
+            price: dto.price,
             description: dto.description,
         }
     }
@@ -34,7 +34,7 @@ mod test {
             id: "id".to_string(),
             user_id: "user_id".to_string(),
             name: "name".to_string(),
-            parice: 1.0,
+            price: 1.0,
             description: Some("description".to_string()),
         };
 

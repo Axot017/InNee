@@ -14,6 +14,7 @@ impl From<Error> for ErrorDto {
         Self {
             status_code: match error.error_type {
                 ErrorType::InvalidInput => StatusCode::BAD_REQUEST,
+                ErrorType::Conflict => StatusCode::CONFLICT,
                 ErrorType::Unknown => StatusCode::INTERNAL_SERVER_ERROR,
             },
             error_dto: (*error.output).into(),

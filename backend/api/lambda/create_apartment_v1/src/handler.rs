@@ -18,7 +18,8 @@ pub async fn handle_request(event: Request) -> Result<Response<Body>, Error> {
             create_apartment(
                 create_apartment_params,
                 CreateApartmentRepository {
-                    save: apartment_infra::repository::save_apartment,
+                    save_apartment: apartment_infra::repository::save_apartment,
+                    get_user_apartments: apartment_infra::repository::get_user_apartments,
                 },
             )
         })

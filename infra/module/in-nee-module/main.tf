@@ -18,7 +18,7 @@ module "create_apartment_v1_lambda" {
   region                = var.region
   env                   = var.env
   name                  = "create-apartment-v1"
-  aapp_name             = "in-nee"
+  app_name              = "in-nee"
   memory_size           = 128
   zip_path              = "${path.module}/../../../target/lambdas/create_apartment_v1.zip"
   gateway_execution_arn = module.gateway.execution_arn
