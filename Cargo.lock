@@ -42,11 +42,8 @@ name = "apartment_infra"
 version = "0.1.0"
 dependencies = [
  "apartment_domain",
- "aws-config",
- "aws-sdk-dynamodb",
  "common_domain",
  "common_infra",
- "log",
  "serde",
  "serde_dynamo",
  "uuid",
@@ -578,7 +575,6 @@ version = "0.1.0"
 dependencies = [
  "aws-config",
  "aws-sdk-dynamodb",
- "common_domain",
  "lazy_static",
  "log",
  "tokio",
@@ -635,7 +631,6 @@ dependencies = [
  "futures",
  "lambda_http",
  "serde",
- "serde_json",
  "tokio",
  "use_case",
  "validator",
@@ -1091,9 +1086,9 @@ dependencies = [
 
 [[package]]
 name = "lambda_http"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e99edb20005e6456db8f1bb5abec3cf7787640b456dda195c1a3216ec4397ce8"
+checksum = "124a7f47403cd42c67611193588778c04931842a0d9432d26327735273a749af"
 dependencies = [
  "aws_lambda_events",
  "base64",
