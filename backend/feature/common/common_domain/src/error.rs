@@ -10,6 +10,7 @@ const UNKNOWN_ERROR_CODE: &str = "unknown";
 #[derive(PartialEq, Eq, Clone, Copy, Debug)]
 pub enum ErrorType {
     InvalidInput,
+    Conflict,
     Unknown,
 }
 
@@ -67,6 +68,7 @@ impl From<ErrorType> for Level {
         match ty {
             ErrorType::InvalidInput => Level::Info,
             ErrorType::Unknown => Level::Error,
+            ErrorType::Conflict => Level::Info,
         }
     }
 }
