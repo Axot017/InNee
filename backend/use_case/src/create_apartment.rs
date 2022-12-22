@@ -37,3 +37,81 @@ fn apartment_already_exists_error() -> Error {
         }),
     }
 }
+
+#[cfg(test)]
+mod test {
+    use common_domain::tokio;
+    use mockall::predicate;
+
+    use super::*;
+
+    #[tokio::test]
+    async fn should_create_apartment() {
+        let create_apartment_params = CreateApartmentParams {
+            name: "apartment-1".to_string(),
+            description: Some("description".to_string()),
+            price: 100.0,
+        };
+
+        let _get_user_apartments_lock = apartment_domain::port::get_user_apartments_lock().await;
+        let ctx = apartment_domain::port::mock_get_user_apartments::call_context();
+        ctx.expect()
+            .times(1)
+            .withf(|user_id| user_id == "user-1")
+            .returning(|_| Ok(vec![]));
+
+        let _save_apartment_lock = apartment_domain::port::save_apartment_lock().await;
+        let ctx = apartment_domain::port::mock_save_apartment::call_context();
+        ctx.expect()
+            .times(1)
+            .with(predicate::eq(create_apartment_params.clone()))
+            .returning(|_| Ok(()));
+
+        let repository = CreateApartmentRepository {
+            save_apartment: apartment_domain::port::mock_save_apartment::call,
+            get_user_apartments: apartment_domain::port::mock_get_user_apartments::call,
+        };
+
+        let result = create_apartment(create_apartment_params.clone(), repository).await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn apartment_already_exists() {
+        let create_apartment_params = CreateApartmentParams {
+            name: "apartment-1".to_string(),
+            description: Some("description".to_string()),
+            price: 100.0,
+        };
+
+        let _get_user_apartments_lock = apartment_domain::port::get_user_apartments_lock().await;
+        let ctx = apartment_domain::port::mock_get_user_apartments::call_context();
+        ctx.expect()
+            .times(1)
+            .withf(|user_id| user_id == "user-1")
+            .returning(|_| {
+                Ok(vec![apartment_domain::model::Apartment {
+                    id: "apartment-1".to_string(),
+                    name: "apartment-1".to_string(),
+                    user_id: "user-1".to_string(),
+                    description: Some("description".to_string()),
+                    price: 100.0,
+                }])
+            });
+
+        let repository = CreateApartmentRepository {
+            save_apartment: apartment_domain::port::mock_save_apartment::call,
+            get_user_apartments: apartment_domain::port::mock_get_user_apartments::call,
+        };
+
+        let result = create_apartment(create_apartment_params.clone(), repository).await;
+
+        assert!(result.is_err());
+        assert_eq!(
+            result.as_ref().unwrap_err().error_type,
+            common_domain::error::ErrorType::Conflict
+        );
+        assert_eq!(result.unwrap_err(), apartment_already_exists_error());
+    }
+}

@@ -2189,6 +2189,7 @@ version = "0.1.0"
 dependencies = [
  "apartment_domain",
  "common_domain",
+ "mockall",
 ]
 
 [[package]]
