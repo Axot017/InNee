@@ -7,5 +7,8 @@ edition = "2021"
 apartment_domain = { path = "../feature/apartment/apartment_domain", optional = true }
 common_domain = { path = "../feature/common/common_domain" }
 
+[dev-dependencies]
+mockall = { workspace = true }
+
 [features]
 create_apartment = ["apartment_domain"]
