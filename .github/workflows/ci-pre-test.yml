@@ -1,0 +1,62 @@
+name: CI - analyze dependencies and format
+
+on:
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  run-tests:
+    name: Analyze dependencies and format
+    runs-on: ubuntu-latest
+    env:
+      cache_id: tests
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+            ~/.rustup/toolchains
+            ~/.rustup/update-hashes
+            ~/.rustup/settings.toml
+          key: ${{ runner.os }}-cargo-pre-test-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install latest rust
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            override: true
+            components: rustfmt
+
+      - name: Install cargo-sort
+        run: |
+          cargo install cargo-sort
+
+      - name: Install cargo-machete 
+        run: |
+          cargo install cargo-machete 
+
+      - name: Check cargo dependencies order
+        run: |
+          cargo sort -w -c
+
+      - name: Detect unused dependencies
+        run: |
+          cargo machete
+
+      - name: Check format
+        run: |
+          cargo fmt --check
