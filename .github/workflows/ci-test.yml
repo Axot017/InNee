@@ -24,10 +24,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
+            ~/.cargo/
             target/
             ~/.rustup/toolchains
             ~/.rustup/update-hashes
@@ -42,9 +39,19 @@ jobs:
             components: clippy
 
       - name: Run clippy
-        run: |
-          cargo clippy --all-targets --all-features -- -D warnings
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --all-targets --all-features -- -D warnings
 
       - name: Run tests
-        run: |
-          cargo test -- --nocapture --test-threads 1
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: -- --nocapture --test-threads 1
+
+      - name: Cancel other workflows
+        uses: styfle/cancel-workflow-action@0.11.0
+        if: failure()
+        with:
+          workflow_id: all
