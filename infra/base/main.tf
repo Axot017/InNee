@@ -24,5 +24,4 @@ module "backend_module" {
 
   table_name  = "just-code-state-lock"
   bucket_name = "just-code-state"
-  region      = "eu-central-1"
 }

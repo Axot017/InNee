@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.region
-}
-
 resource "aws_apigatewayv2_api" "default" {
   name          = "${var.app_name}-${var.env}"
   protocol_type = "HTTP"

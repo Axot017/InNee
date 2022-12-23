@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.region
-}
-
 locals {
   env_variables = var.env_variables == null ? [] : [var.env_variables]
 }
@@ -73,7 +69,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
   policy_arn = var.policies[count.index]
 }
 
-resource "aws_cloudwatch_log_group" "hello_world" {
+resource "aws_cloudwatch_log_group" "lambda" {
   name = "/aws/lambda/${aws_lambda_function.lambda.function_name}"
 
   retention_in_days = 30
