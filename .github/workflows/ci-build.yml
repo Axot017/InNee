@@ -1,4 +1,4 @@
-name: CI
+name: CI - build
 
 on:
   pull_request:
@@ -13,12 +13,12 @@ env:
 
 jobs:
   run-tests:
-    name: Run tests
+    name: Build lambdas
     runs-on: ubuntu-latest
     env:
       cache_id: tests
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Cache
         uses: actions/cache@v3
@@ -32,39 +32,18 @@ jobs:
             ~/.rustup/toolchains
             ~/.rustup/update-hashes
             ~/.rustup/settings.toml
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install latest rust
         uses: actions-rs/toolchain@v1
         with:
             toolchain: stable
             override: true
-            components: clippy, rustfmt
 
-      - name: Install cargo-sort
+      - name: Install cross
         run: |
-          cargo install cargo-sort
+          cargo install cross
 
-      - name: Install cargo-machete 
+      - name: Build lambdas
         run: |
-          cargo install cargo-machete 
-
-      - name: Check cargo dependencies order
-        run: |
-          cargo sort -w -c
-
-      - name: Detect unused dependencies
-        run: |
-          cargo machete
-
-      - name: Check format
-        run: |
-          cargo fmt --check
-
-      - name: Run clippy
-        run: |
-          cargo clippy --all-targets --all-features -- -D warnings
-
-      - name: Run tests
-        run: |
-          cargo test -- --nocapture --test-threads 1
+          cargo xtask build-lambda --use-cross --target aarch64-unknown-linux-gnu
