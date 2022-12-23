@@ -7,15 +7,10 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.region
-}
-
 module "create_apartment_v1_lambda" {
   source = "../lambda-module"
 
 
-  region                = var.region
   env                   = var.env
   name                  = "create-apartment-v1"
   app_name              = "in-nee"
@@ -31,7 +26,6 @@ module "create_apartment_v1_lambda" {
 module "gateway" {
   source = "../gateway-module"
 
-  region   = var.region
   env      = var.env
   app_name = "in-nee"
   lambda_integrations = [

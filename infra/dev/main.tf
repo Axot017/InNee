@@ -22,6 +22,5 @@ provider "aws" {
 module "app" {
   source = "../module/in-nee-module"
 
-  region = var.region
-  env    = "dev"
+  env = "dev"
 }
