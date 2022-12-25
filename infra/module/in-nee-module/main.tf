@@ -7,6 +7,12 @@ terraform {
   }
 }
 
+module "auth" {
+  source   = "../auth-module"
+  app_name = "in-nee"
+  env      = var.env
+}
+
 module "create_apartment_v1_lambda" {
   source = "../lambda-module"
 
