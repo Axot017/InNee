@@ -8,14 +8,14 @@ terraform {
 }
 
 module "auth" {
-  source   = "../auth-module"
+  source = "../auth-module"
+
   app_name = "in-nee"
   env      = var.env
 }
 
 module "create_apartment_v1_lambda" {
   source = "../lambda-module"
-
 
   env                   = var.env
   name                  = "create-apartment-v1"
@@ -32,13 +32,16 @@ module "create_apartment_v1_lambda" {
 module "gateway" {
   source = "../gateway-module"
 
-  env      = var.env
-  app_name = "in-nee"
+  auth_endpoint  = module.auth.auth_endpoint
+  auth_client_id = module.auth.auth_client_id
+  env            = var.env
+  app_name       = "in-nee"
   lambda_integrations = [
     {
       lambda_invoke_arn = module.create_apartment_v1_lambda.invoke_arn
       route             = "/v1/apartment"
       method            = "POST"
+      protected         = true
     }
   ]
 }
