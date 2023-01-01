@@ -18,7 +18,6 @@ resource "aws_apigatewayv2_api" "default" {
 }
 
 resource "aws_apigatewayv2_stage" "default" {
-  # deployment_id = aws_apigatewayv2_deployment.default.id
   api_id      = aws_apigatewayv2_api.default.id
   name        = "api"
   auto_deploy = true
@@ -42,6 +41,19 @@ resource "aws_apigatewayv2_stage" "default" {
   }
 }
 
+resource "aws_apigatewayv2_authorizer" "auth" {
+  api_id           = aws_apigatewayv2_api.default.id
+  authorizer_type  = "JWT"
+  identity_sources = ["$request.header.Authorization"]
+  name             = "${var.app_name}-${var.env}-auth"
+
+  jwt_configuration {
+    audience = [var.auth_client_id]
+    issuer   = "https://${var.auth_endpoint}"
+  }
+}
+
+
 resource "aws_apigatewayv2_integration" "lambdas" {
   count = length(var.lambda_integrations)
 
@@ -54,8 +66,10 @@ resource "aws_apigatewayv2_integration" "lambdas" {
 resource "aws_apigatewayv2_route" "lambdas" {
   count = length(var.lambda_integrations)
 
-  api_id    = aws_apigatewayv2_api.default.id
-  route_key = "${var.lambda_integrations[count.index].method} ${var.lambda_integrations[count.index].route}"
+  api_id             = aws_apigatewayv2_api.default.id
+  route_key          = "${var.lambda_integrations[count.index].method} ${var.lambda_integrations[count.index].route}"
+  authorizer_id      = var.lambda_integrations[count.index].protected ? aws_apigatewayv2_authorizer.auth.id : null
+  authorization_type = var.lambda_integrations[count.index].protected ? "JWT" : null
 
   target = "integrations/${aws_apigatewayv2_integration.lambdas[count.index].id}"
 }

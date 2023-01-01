@@ -4,6 +4,7 @@ members = [
   "backend/api/lambda/*",
   "backend/feature/apartment/*",
   "backend/feature/common/*",
+  "backend/feature/profile/*",
   "backend/use_case",
   "xtask",
 ]

@@ -10,17 +10,14 @@ terraform {
 resource "aws_cognito_user_pool" "pool" {
   name = "${var.app_name}-${var.env}-pool"
 
-  alias_attributes         = ["email"]
   auto_verified_attributes = ["email"]
+  username_attributes      = ["email"]
 
   account_recovery_setting {
     recovery_mechanism {
       name     = "verified_email"
       priority = 1
     }
-  }
-  username_configuration {
-    case_sensitive = false
   }
 
   password_policy {
@@ -30,7 +27,7 @@ resource "aws_cognito_user_pool" "pool" {
   schema {
     attribute_data_type      = "String"
     developer_only_attribute = false
-    mutable                  = true
+    mutable                  = false
     name                     = "email"
     required                 = true
 
@@ -38,6 +35,11 @@ resource "aws_cognito_user_pool" "pool" {
       min_length = 7
       max_length = 256
     }
+  }
+
+  tags = {
+    AppName = var.app_name
+    Env     = var.env
   }
 }
 

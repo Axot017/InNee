@@ -7,4 +7,5 @@ pub mod from_request;
 pub mod into_response;
 #[cfg(feature = "lambda")]
 pub mod register_hadler;
+pub mod user_context;
 pub mod validate_dto;

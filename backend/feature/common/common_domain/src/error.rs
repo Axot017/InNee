@@ -11,6 +11,7 @@ const UNKNOWN_ERROR_CODE: &str = "unknown";
 pub enum ErrorType {
     InvalidInput,
     Conflict,
+    NotFound,
     Unknown,
 }
 
@@ -69,6 +70,7 @@ impl From<ErrorType> for Level {
             ErrorType::InvalidInput => Level::Info,
             ErrorType::Unknown => Level::Error,
             ErrorType::Conflict => Level::Info,
+            ErrorType::NotFound => Level::Info,
         }
     }
 }
