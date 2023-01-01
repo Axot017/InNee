@@ -36,6 +36,11 @@ resource "aws_cognito_user_pool" "pool" {
       max_length = 256
     }
   }
+
+  tags = {
+    AppName = var.app_name
+    Env     = var.env
+  }
 }
 
 resource "aws_cognito_user_pool_client" "client" {

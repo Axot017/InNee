@@ -861,6 +861,8 @@ dependencies = [
  "common_domain",
  "futures",
  "lambda_http",
+ "profile_domain",
+ "profile_infra",
  "serde",
  "tokio",
  "use_case",
@@ -1538,6 +1540,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "profile_domain"
+version = "0.1.0"
+dependencies = [
+ "common_domain",
+ "mockall",
+]
+
+[[package]]
+name = "profile_infra"
+version = "0.1.0"
+dependencies = [
+ "aws-sdk-dynamodb",
+ "common_domain",
+ "common_infra",
+ "profile_domain",
+ "serde",
+ "serde_dynamo",
+]
+
+[[package]]
 name = "query_map"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2203,6 +2225,7 @@ dependencies = [
  "apartment_domain",
  "common_domain",
  "mockall",
+ "profile_domain",
 ]
 
 [[package]]

@@ -1,0 +1,11 @@
+[package]
+name = "profile_domain"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common_domain = { path = "../../common/common_domain" }
+mockall = { workspace = true }
+
+[package.metadata.cargo-machete]
+ignored = ["mockall"]

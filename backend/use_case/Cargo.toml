@@ -6,9 +6,11 @@ edition = "2021"
 [dependencies]
 apartment_domain = { path = "../feature/apartment/apartment_domain", optional = true }
 common_domain = { path = "../feature/common/common_domain" }
+profile_domain = { path = "../feature/profile/profile_domain", optional = true }
 
 [dev-dependencies]
 mockall = { workspace = true }
 
 [features]
 create_apartment = ["apartment_domain"]
+get_profile_by_id = ["profile_domain"]

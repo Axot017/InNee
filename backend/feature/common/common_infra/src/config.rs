@@ -27,16 +27,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn default_config() {
-        env::remove_var("DYNAMODB_TABLE");
-        let config = Config::new();
-        assert_eq!(&config.dynamodb_table, "in-nee-dev");
-    }
-
-    #[test]
-    fn config_with_env() {
+    fn config() {
         env::set_var("DYNAMODB_TABLE", "in-nee-test");
         let config = Config::new();
         assert_eq!(&config.dynamodb_table, "in-nee-test");
+
+        env::remove_var("DYNAMODB_TABLE");
+        let config = Config::new();
+        assert_eq!(&config.dynamodb_table, "in-nee-dev");
     }
 }
