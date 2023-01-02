@@ -12,6 +12,19 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  xtask-changes:
+    runs-on: ubuntu-latest
+    name: Detect xtask changes
+    outputs:
+      xtask-changes: ${{ steps.filter.outputs.xtask }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          xtask:
+            - 'xtask/**'
   run-tests:
     name: Run tests and clippy
     runs-on: ubuntu-latest
@@ -97,6 +110,8 @@ jobs:
   build-lambdas:
     name: Build lambdas
     runs-on: ubuntu-latest
+    needs: xtask-changes
+    if: ${{ needs.xtask-changes.outputs.xtask-changes == 'true' }}
     env:
       cache_id: tests
     steps:
