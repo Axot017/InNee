@@ -5,8 +5,12 @@ edition = "2021"
 
 [dependencies]
 common_api = { path = "../../common_api", features = ["lambda"] }
+common_domain = { path = "../../../feature/common/common_domain" }
+futures = { workspace = true }
 lambda_http = { workspace = true, features = ["apigw_rest"] }
 profile_domain = { path = "../../../feature/profile/profile_domain" }
+profile_infra = { path = "../../../feature/profile/profile_infra" }
 serde = { workspace = true, features = ["derive"] }
 tokio = { workspace = true }
+use_case = { path = "../../../use_case", features = ["create_profile"] }
 with_id = { path = "../../../macro/with_id" }

@@ -3,7 +3,7 @@ use lambda_http::Request;
 use serde::de::DeserializeOwned;
 
 pub trait FromRequest {
-    fn from_request(request: Request) -> Result<Self, Error>
+    fn from_request(request: &Request) -> Result<Self, Error>
     where
         Self: Sized;
 }
@@ -12,8 +12,8 @@ impl<T> FromRequest for T
 where
     T: DeserializeOwned,
 {
-    fn from_request(request: Request) -> Result<Self, Error> {
-        serde_json::from_slice::<T>(request.body().as_ref()).map_err(|e| Error {
+    fn from_request(request: &Request) -> Result<Self, Error> {
+        serde_json::from_slice::<T>(request.body()).map_err(|e| Error {
             debug_message: e.to_string(),
             error_type: ErrorType::InvalidInput,
             output: Box::new(ErrorOutput {

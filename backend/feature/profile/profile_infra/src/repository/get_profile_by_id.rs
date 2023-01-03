@@ -4,9 +4,7 @@ use common_infra::{config::CONFIG, dynamodb_client::get_dynamodb_client};
 use profile_domain::model::profile::Profile;
 use serde_dynamo::from_item;
 
-use crate::dto::profile_dto::ProfileDto;
-
-use super::PROFILE_ID_PREFIX;
+use crate::{dto::profile_dto::ProfileDto, PROFILE_ID_PREFIX};
 
 pub async fn get_profile_by_id(id: &str) -> Result<Option<Profile>> {
     let client = get_dynamodb_client().await;
