@@ -62,6 +62,7 @@ mod test {
             .withf(|arg| arg == "id")
             .returning(|_| {
                 Ok(Some(Profile {
+                    id: "id".to_owned(),
                     name: "name".to_owned(),
                     avatar_url: Some("avatar_url".to_owned()),
                 }))

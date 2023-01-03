@@ -10,7 +10,7 @@ use use_case::create_apartment::{create_apartment, CreateApartmentRepository};
 use crate::dto::CreateApartmentDto;
 
 pub async fn handle_request(event: Request) -> Result<Response<Body>, Error> {
-    CreateApartmentDto::from_request(event)
+    CreateApartmentDto::from_request(&event)
         .and_then(|dto| dto.validate_dto().map(|_| dto))
         .map(CreateApartmentParams::from)
         .into_future()

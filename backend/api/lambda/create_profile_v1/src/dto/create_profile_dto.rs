@@ -24,7 +24,12 @@ mod tests {
         };
         let dto_with_id = CreateProfileDtoWithId("id".to_string(), dto);
         let params = CreateProfileParams::from(dto_with_id);
-        assert_eq!(params.id, "id");
-        assert_eq!(params.name, "name");
+        assert_eq!(
+            params,
+            CreateProfileParams {
+                id: "id".to_string(),
+                name: "name".to_string()
+            }
+        );
     }
 }
