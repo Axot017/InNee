@@ -1,0 +1,12 @@
+[package]
+name = "create_profile_v1"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common_api = { path = "../../common_api", features = ["lambda"] }
+lambda_http = { workspace = true, features = ["apigw_rest"] }
+profile_domain = { path = "../../../feature/profile/profile_domain" }
+serde = { workspace = true, features = ["derive"] }
+tokio = { workspace = true }
+with_id = { path = "../../../macro/with_id" }
