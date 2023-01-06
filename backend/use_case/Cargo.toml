@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 apartment_domain = { path = "../feature/apartment/apartment_domain", optional = true }
+chrono = { workspace = true }
 common_domain = { path = "../feature/common/common_domain" }
 profile_domain = { path = "../feature/profile/profile_domain", optional = true }
 
@@ -15,3 +16,4 @@ mockall = { workspace = true }
 create_apartment = ["apartment_domain"]
 get_profile_by_id = ["profile_domain"]
 create_profile = ["profile_domain"]
+request_avatar_upload = ["profile_domain"]

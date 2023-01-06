@@ -1,0 +1,15 @@
+[package]
+name = "request_avatar_upload_v1"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common_api = { path = "../../common_api", features = ["lambda"] }
+common_domain = { path = "../../../feature/common/common_domain" }
+futures = { workspace = true }
+lambda_http = { workspace = true, features = ["apigw_rest"] }
+profile_infra = { path = "../../../feature/profile/profile_infra", features = [
+  "image_upload",
+] }
+tokio = { workspace = true }
+use_case = { path = "../../../use_case", features = ["request_avatar_upload"] }

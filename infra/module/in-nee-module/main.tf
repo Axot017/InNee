@@ -29,7 +29,7 @@ module "get_profile_v1_lambda" {
   gateway_execution_arn = module.gateway.execution_arn
   policies = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
   ]
 }
 
@@ -44,7 +44,7 @@ module "create_profile_v1_lambda" {
   gateway_execution_arn = module.gateway.execution_arn
   policies = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
   ]
 }
 
@@ -59,9 +59,26 @@ module "create_apartment_v1_lambda" {
   gateway_execution_arn = module.gateway.execution_arn
   policies = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
   ]
 }
+
+module "request_avatar_upload_v1_lambda" {
+  source = "../lambda-module"
+
+  env                   = var.env
+  name                  = "request-avatar-upload-v1"
+  app_name              = local.app_name
+  memory_size           = 128
+  zip_path              = "${path.module}/../../../target/lambdas/request_avatar_upload_v1.zip"
+  gateway_execution_arn = module.gateway.execution_arn
+  policies = [
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+  ]
+}
+
 
 module "gateway" {
   source = "../gateway-module"
@@ -86,6 +103,12 @@ module "gateway" {
     {
       lambda_invoke_arn = module.create_profile_v1_lambda.invoke_arn
       route             = "/v1/profile/current"
+      method            = "POST"
+      protected         = true
+    },
+    {
+      lambda_invoke_arn = module.request_avatar_upload_v1_lambda.invoke_arn
+      route             = "/v1/profile/current/avatar"
       method            = "POST"
       protected         = true
     },
@@ -137,5 +160,24 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
   tags = {
     Service     = local.app_name
     Environment = var.env
+  }
+}
+
+resource "aws_s3_bucket" "images" {
+  bucket = "${local.app_name}-${var.env}"
+}
+
+resource "aws_s3_bucket_acl" "images" {
+  bucket = aws_s3_bucket.images.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "images" {
+  bucket = aws_s3_bucket.images.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }

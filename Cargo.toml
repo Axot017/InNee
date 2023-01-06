@@ -11,6 +11,7 @@ members = [
 ]
 
 [workspace.dependencies]
+aws-sdk-s3 = { version = "0.21" }
 chrono = { version = "0.4" }
 proc-macro2 = { version = "1.0" }
 aws-config = { version = "0.51" }

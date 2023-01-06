@@ -1,4 +1,4 @@
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Clone, Default, PartialEq, Eq, Debug)]
 pub struct Profile {
     pub id: String,
     pub name: String,
