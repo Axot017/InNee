@@ -79,6 +79,22 @@ module "request_avatar_upload_v1_lambda" {
   ]
 }
 
+module "on_avatar_created" {
+  source = "../lambda-module"
+
+  env         = var.env
+  name        = "on-avatar-created"
+  app_name    = local.app_name
+  memory_size = 128
+  zip_path    = "${path.module}/../../../target/lambdas/on_avatar_created.zip"
+  s3_arn      = aws_s3_bucket.images.arn
+  policies = [
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+  ]
+}
+
 
 module "gateway" {
   source = "../gateway-module"
@@ -180,4 +196,16 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "images" {
       sse_algorithm = "AES256"
     }
   }
+}
+
+resource "aws_s3_bucket_notification" "avatar" {
+  bucket = aws_s3_bucket.images.id
+
+  lambda_function {
+    lambda_function_arn = module.on_avatar_created.arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "profile/avatar/"
+  }
+
+  depends_on = [module.on_avatar_created.permission_id]
 }

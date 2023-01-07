@@ -1,8 +1,7 @@
 use std::future::Future;
 
 use http::Response;
-use lambda_http::{run, tower::ServiceBuilder, Error};
-use lambda_http::{Body, Request};
+use lambda_http::{run, tower::ServiceBuilder, Body, Error, Request};
 use tower_http::trace::{DefaultOnRequest, DefaultOnResponse, TraceLayer};
 use tracing::Level;
 

@@ -1,8 +1,6 @@
-use common_domain::{
-    error::{Error, ErrorOutput, ErrorType, Result},
-    models::PresignedUrl,
-};
-use profile_domain::port::{GetAvatarUploadUrl, GetProfileById};
+use bucket_domain::{model::presigned_url::PresignedUrl, port::GetUploadUrl};
+use common_domain::error::{Error, ErrorOutput, ErrorType, Result};
+use profile_domain::{consts::AVATAR_IMAGE_PREFIX, port::GetProfileById};
 
 pub struct RequestAvatarUploadRepository<A, B> {
     pub get_profile_by_id: A,
@@ -15,7 +13,7 @@ pub async fn request_avatar_upload<A, B>(
 ) -> Result<PresignedUrl>
 where
     for<'a> A: GetProfileById<'a>,
-    for<'a> B: GetAvatarUploadUrl<'a>,
+    for<'a> B: GetUploadUrl<'a>,
 {
     let profile = (repo.get_profile_by_id)(&profile_id).await?;
 
@@ -23,7 +21,7 @@ where
         return Err(profile_not_created(&profile_id));
     }
 
-    (repo.get_avatar_upload_url)(&profile_id).await
+    (repo.get_avatar_upload_url)(&format!("{}{}", AVATAR_IMAGE_PREFIX, profile_id)).await
 }
 
 fn profile_not_created(profile_id: &str) -> Error {
@@ -57,15 +55,15 @@ mod test {
             .times(1)
             .returning(|_| Ok(None));
 
-        let _get_avatar_upload_url_lock = profile_domain::port::get_avatar_upload_url_lock().await;
-        let ctx = profile_domain::port::mock_get_avatar_upload_url::call_context();
+        let _get_avatar_upload_url_lock = bucket_domain::port::get_upload_url_lock().await;
+        let ctx = bucket_domain::port::mock_get_upload_url::call_context();
         ctx.expect().times(0);
 
         let result = request_avatar_upload(
             id.to_owned(),
             RequestAvatarUploadRepository {
                 get_profile_by_id: profile_domain::port::mock_get_profile_by_id::call,
-                get_avatar_upload_url: profile_domain::port::mock_get_avatar_upload_url::call,
+                get_avatar_upload_url: bucket_domain::port::mock_get_upload_url::call,
             },
         )
         .await;
@@ -86,10 +84,10 @@ mod test {
             .times(1)
             .returning(|_| Ok(Some(Profile::default())));
 
-        let _get_avatar_upload_url_lock = profile_domain::port::get_avatar_upload_url_lock().await;
-        let ctx = profile_domain::port::mock_get_avatar_upload_url::call_context();
+        let _get_avatar_upload_url_lock = bucket_domain::port::get_upload_url_lock().await;
+        let ctx = bucket_domain::port::mock_get_upload_url::call_context();
         ctx.expect()
-            .withf(move |id| id == "id")
+            .withf(move |id| id == "profile/avatar/id")
             .times(1)
             .returning(move |_| {
                 Ok(PresignedUrl {
@@ -103,7 +101,7 @@ mod test {
             id.to_owned(),
             RequestAvatarUploadRepository {
                 get_profile_by_id: profile_domain::port::mock_get_profile_by_id::call,
-                get_avatar_upload_url: profile_domain::port::mock_get_avatar_upload_url::call,
+                get_avatar_upload_url: bucket_domain::port::mock_get_upload_url::call,
             },
         )
         .await;

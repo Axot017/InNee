@@ -1,6 +1,6 @@
 use log::Level;
 
-use std::collections::HashMap;
+use std::{collections::HashMap, fmt::Display};
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -63,6 +63,14 @@ impl Error {
         }
     }
 }
+
+impl Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+impl std::error::Error for Error {}
 
 impl From<ErrorType> for Level {
     fn from(ty: ErrorType) -> Self {

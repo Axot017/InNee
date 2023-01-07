@@ -1,0 +1,12 @@
+[package]
+name = "bucket_infra"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aws-config = { workspace = true }
+aws-sdk-s3 = { workspace = true }
+bucket_domain = { path = "../bucket_domain" }
+chrono = { workspace = true }
+common_domain = { path = "../../common/common_domain" }
+common_infra = { path = "../../common/common_infra", features = ["s3"] }
