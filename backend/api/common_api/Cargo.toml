@@ -4,9 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+aws_lambda_events = { workspace = true, optional = true }
+bucket_domain = { path = "../../feature/bucket/bucket_domain" }
 common_domain = { path = "../../feature/common/common_domain" }
 http = { workspace = true }
 lambda_http = { workspace = true, features = ["apigw_rest"], optional = true }
+lambda_runtime = { workspace = true, optional = true }
 log = { workspace = true }
 mime = { workspace = true }
 serde = { workspace = true }
@@ -22,6 +25,12 @@ lambda = [
   "tracing-subscriber",
   "tracing",
   "tower-http",
-  "lambda_http",
-  "lambda_http",
+  "lambda_runtime",
+  "aws_lambda_events",
+]
+internal_lambda = [
+  "tracing-subscriber",
+  "tracing",
+  "lambda_runtime",
+  "aws_lambda_events",
 ]

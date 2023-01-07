@@ -8,5 +8,7 @@ pub mod from_request;
 pub mod into_response;
 #[cfg(feature = "lambda")]
 pub mod register_hadler;
+#[cfg(feature = "internal_lambda")]
+pub mod register_internal_handler;
 pub mod user_context;
 pub mod validate_dto;

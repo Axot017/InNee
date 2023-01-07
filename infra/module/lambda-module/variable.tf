@@ -24,7 +24,13 @@ variable "zip_path" {
 }
 
 variable "gateway_execution_arn" {
-  type = string
+  type    = string
+  default = null
+}
+
+variable "s3_arn" {
+  type    = string
+  default = null
 }
 
 variable "arch" {

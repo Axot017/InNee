@@ -1,0 +1,13 @@
+[package]
+name = "on_avatar_created"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aws_lambda_events = { workspace = true, features = ["s3"] }
+bucket_infra = { path = "../../../feature/bucket/bucket_infra" }
+common_api = { path = "../../common_api", features = ["internal_lambda"] }
+lambda_runtime = { workspace = true }
+profile_infra = { path = "../../../feature/profile/profile_infra" }
+tokio = { workspace = true }
+use_case = { path = "../../../use_case", features = ["on_avatar_created"] }

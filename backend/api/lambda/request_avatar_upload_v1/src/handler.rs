@@ -15,7 +15,7 @@ pub async fn handle_request(event: Request) -> Result<Response<Body>, Error> {
                 id,
                 RequestAvatarUploadRepository {
                     get_profile_by_id: profile_infra::repository::get_profile_by_id,
-                    get_avatar_upload_url: profile_infra::repository::get_avatar_upload_url,
+                    get_avatar_upload_url: bucket_infra::repository::get_upload_url,
                 },
             )
         })
