@@ -3,6 +3,7 @@ members = [
   "backend/api/common_api",
   "backend/api/lambda/*",
   "backend/feature/apartment/*",
+  "backend/feature/bucket/*",
   "backend/feature/common/*",
   "backend/feature/profile/*",
   "backend/macro/*",
@@ -11,6 +12,8 @@ members = [
 ]
 
 [workspace.dependencies]
+aws_lambda_events = { version = "0.7", default-features = false }
+lambda_runtime = { version = "0.7" }
 aws-sdk-s3 = { version = "0.21" }
 chrono = { version = "0.4" }
 proc-macro2 = { version = "1.0" }

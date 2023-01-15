@@ -1,29 +1,25 @@
 use std::time::Duration;
 
 use aws_sdk_s3::{model::ObjectCannedAcl, presigning::config::PresigningConfig};
+use bucket_domain::model::presigned_url::PresignedUrl;
 use chrono::Utc;
-use common_domain::{
-    error::{Error, Result},
-    models::PresignedUrl,
-};
+use common_domain::error::{Error, Result};
 use common_infra::{config::CONFIG, s3_client::get_s3_client};
 
-const KEY_PREFIX: &str = "profile/avatar/";
-
-pub async fn get_avatar_upload_url(profile_id: &str) -> Result<PresignedUrl> {
+pub async fn get_upload_url(key: &str) -> Result<PresignedUrl> {
     let client = get_s3_client().await;
 
     client
         .put_object()
         .bucket(&CONFIG.s3_bucket)
-        .key(format!("{}{}", KEY_PREFIX, profile_id))
+        .key(key)
         .acl(ObjectCannedAcl::PublicRead)
         .presigned(presigned_config()?)
         .await
         .map_err(|err| {
             Error::unknown(format!(
-                "Failed to presign avatar image upload for profile {}: {:?}",
-                profile_id, err
+                "Failed to presign avatar image  {}: {:?}",
+                key, err
             ))
         })
         .map(|presigned| PresignedUrl {

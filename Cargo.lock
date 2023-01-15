@@ -482,6 +482,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "bucket_domain"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "common_domain",
+ "mockall",
+]
+
+[[package]]
+name = "bucket_infra"
+version = "0.1.0"
+dependencies = [
+ "aws-config",
+ "aws-sdk-s3",
+ "bucket_domain",
+ "chrono",
+ "common_domain",
+ "common_infra",
+]
+
+[[package]]
 name = "bumpalo"
 version = "3.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -624,9 +645,12 @@ dependencies = [
 name = "common_api"
 version = "0.1.0"
 dependencies = [
+ "aws_lambda_events",
+ "bucket_domain",
  "common_domain",
  "http",
  "lambda_http",
+ "lambda_runtime",
  "log",
  "mime",
  "serde",
@@ -641,7 +665,6 @@ dependencies = [
 name = "common_domain"
 version = "0.1.0"
 dependencies = [
- "chrono",
  "lazy_static",
  "log",
  "mockall",
@@ -1578,6 +1601,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "on_avatar_created"
+version = "0.1.0"
+dependencies = [
+ "aws_lambda_events",
+ "bucket_infra",
+ "common_api",
+ "lambda_runtime",
+ "profile_infra",
+ "tokio",
+ "use_case",
+]
+
+[[package]]
 name = "once_cell"
 version = "1.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1785,7 +1821,6 @@ name = "profile_infra"
 version = "0.1.0"
 dependencies = [
  "aws-sdk-dynamodb",
- "aws-sdk-s3",
  "chrono",
  "common_domain",
  "common_infra",
@@ -1874,6 +1909,7 @@ checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
 name = "request_avatar_upload_v1"
 version = "0.1.0"
 dependencies = [
+ "bucket_infra",
  "common_api",
  "common_domain",
  "futures",
@@ -2494,8 +2530,10 @@ name = "use_case"
 version = "0.1.0"
 dependencies = [
  "apartment_domain",
+ "bucket_domain",
  "chrono",
  "common_domain",
+ "log",
  "mockall",
  "profile_domain",
 ]

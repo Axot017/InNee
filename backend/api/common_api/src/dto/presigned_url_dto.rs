@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use common_domain::models::PresignedUrl;
+use bucket_domain::model::presigned_url::PresignedUrl;
 use lambda_http::aws_lambda_events::chrono::{DateTime, Utc};
 use serde::Serialize;
 
