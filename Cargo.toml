@@ -19,7 +19,7 @@ chrono = { version = "0.4" }
 proc-macro2 = { version = "1.0" }
 aws-config = { version = "0.51" }
 aws-sdk-dynamodb = { version = "0.21" }
-clap = { version = "4.0" }
+clap = { version = "4.1" }
 futures = { version = "0.3" }
 http = { version = "0.2" }
 lambda_http = { version = "0.7", default-features = false }
