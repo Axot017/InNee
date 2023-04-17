@@ -442,7 +442,7 @@ version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d376097ccf49a2699d554558267b2735f62ce94ee1840a9f73253ad7c26fbaa7"
 dependencies = [
- "base64",
+ "base64 0.13.1",
  "bytes",
  "chrono",
  "http",
@@ -459,6 +459,12 @@ name = "base64"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
+
+[[package]]
+name = "base64"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4a4ddaa51a5bc52a6948f74c06d20aaaddb71924eab79b8c97a8c556e942d6a"
 
 [[package]]
 name = "base64ct"
@@ -1387,7 +1393,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "16fd842ce9fc6908f1688030cf8b6841e2009bd874eb21244f124570ac06264f"
 dependencies = [
  "aws_lambda_events",
- "base64",
+ "base64 0.13.1",
  "bytes",
  "encoding_rs",
  "http",
@@ -1987,7 +1993,7 @@ version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0864aeff53f8c05aa08d86e5ef839d3dfcf07aeba2db32f12db0ef716e87bd55"
 dependencies = [
- "base64",
+ "base64 0.13.1",
 ]
 
 [[package]]
@@ -2079,11 +2085,12 @@ dependencies = [
 
 [[package]]
 name = "serde_dynamo"
-version = "4.0.11"
+version = "4.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03184345cae00632936686d561748ff6ebc4773edc73ef21540bf4919041c389"
+checksum = "3bdc9cdf11a774fc987d0ff6800bf8e6285db9e06d690a6093de61e1978108c9"
 dependencies = [
  "aws-sdk-dynamodb",
+ "base64 0.21.0",
  "serde",
 ]
 
